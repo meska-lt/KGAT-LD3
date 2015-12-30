@@ -37,9 +37,12 @@
 	};
 	var viewHeight = 478;
 	var viewWidth = 720;
+	var background_layer = document.createElement("div");
+	var mode = 0;
 	window[drop_name] = {
 		init: function() {
 			for (i = 0; i < drop_amount; i++) {
+
 				var raindrop_wrapper = document.createElement("div");
 				raindrop_wrapper.style.position = "fixed";
 				raindrop_wrapper.style.overflow = "hidden";
@@ -49,10 +52,12 @@
 				raindrop_wrapper.style.zIndex = z_index_base + i;
 				raindrop_wrapper.style.width = 3;
 				raindrop_wrapper.style.height = 36;
+
 				var raindrop_image = document.createElement("img");
 				raindrop_image.style.border = "0";
+
 				raindrop_wrapper.appendChild(raindrop_image);
-				body.appendChild(raindrop_wrapper);
+				background_layer.appendChild(raindrop_wrapper);
 				scene_elements[i] = {
 					obj: raindrop_wrapper,
 					img: raindrop_image,
@@ -68,7 +73,6 @@
 				n[i].src = drop_name + ".png"
 			}
 			m.action();
-			m.addControlLayer();
 			x = setInterval(m.action, d)
 		},
 		action: function() {
@@ -190,7 +194,19 @@
 			z.style.visibility = "visible"
 		},
 		clearView: function() {
-
+			background_layer.innerHTML = "";
+		},
+		switchMode: function() {
+			switch(mode) {
+				case 0:
+					m.clearView();
+					mode = 1;
+					break;
+				case 1:
+					m.init();
+					mode = 0;
+					break;
+			}
 		},
 		addControlLayer: function() {
 			var control_wrapper = document.createElement("div");
@@ -200,7 +216,7 @@
 			control_wrapper.style.zIndex = z_index_base + drop_amount + 1;
 
 			var switchModeButton = document.createElement("button");
-			switchModeButton.onclick = m.clearView;
+			switchModeButton.onclick = m.switchMode;
 
 			var switchModeText = document.createTextNode("Switch mode");
 			control_wrapper.className = "button_layer";
@@ -210,7 +226,14 @@
 			body.appendChild(control_wrapper);
 		}
 	};
-	
+
 	var m = window[drop_name];
-	m.init()
+
+	background_layer.style.height = viewHeight;
+	background_layer.style.width = viewWidth;
+	body.appendChild(background_layer);
+
+	m.init();
+
+	m.addControlLayer();
 })();
