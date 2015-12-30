@@ -65,10 +65,10 @@
 			}
 			for (i = 0; i < u; i++) {
 				n[i] = new Image();
-				// n[i].src = b + "b" + (i + 1) + "." + y + (v == 1 ? "?" + e : "")
 				n[i].src = drop_name + ".png"
 			}
 			m.action();
+			m.addControlLayer();
 			x = setInterval(m.action, d)
 		},
 		action: function() {
@@ -127,29 +127,9 @@
 			return Math.floor(Math.random() * z)
 		},
 		getViewHeight: function() {
-			// if (window.innerHeight) {
-			// 	return window.innerHeight
-			// }
-			// if (document.documentElement && document.documentElement.clientHeight) {
-			// 	return document.documentElement.clientHeight
-			// } else {
-			// 	if (document.body && document.body.clientHeight) {
-			// 		return document.body.clientHeight
-			// 	}
-			// }
 			return viewHeight
 		},
 		getViewWidth: function() {
-			// if (window.innerWidth) {
-			// 	return window.innerWidth
-			// }
-			// if (document.documentElement && document.documentElement.clientWidth) {
-			// 	return document.documentElement.clientWidth
-			// } else {
-			// 	if (document.body && document.body.clientWidth) {
-			// 		return document.body.clientWidth
-			// 	}
-			// }
 			return viewWidth
 		},
 		getViewTop: function() {
@@ -208,8 +188,29 @@
 		},
 		setVisible: function(z) {
 			z.style.visibility = "visible"
+		},
+		clearView: function() {
+
+		},
+		addControlLayer: function() {
+			var control_wrapper = document.createElement("div");
+			control_wrapper.style.position = "relative";
+			control_wrapper.style.top = viewHeight;
+			control_wrapper.style.left = 0;
+			control_wrapper.style.zIndex = z_index_base + drop_amount + 1;
+
+			var switchModeButton = document.createElement("button");
+			switchModeButton.onclick = m.clearView;
+
+			var switchModeText = document.createTextNode("Switch mode");
+			control_wrapper.className = "button_layer";
+
+			switchModeButton.appendChild(switchModeText);
+			control_wrapper.appendChild(switchModeButton);
+			body.appendChild(control_wrapper);
 		}
 	};
+	
 	var m = window[drop_name];
 	m.init()
 })();
