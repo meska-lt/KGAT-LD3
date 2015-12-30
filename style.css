@@ -4,3 +4,8 @@ body {
 	background-image: url("background.jpg");
 	background-repeat: no-repeat;
 }
+
+.button_layer {
+	position: relative;
+	top: 478px;
+}
