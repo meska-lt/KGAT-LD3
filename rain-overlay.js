@@ -1,4 +1,5 @@
 var background_layer = document.createElement("div");
+var leavesEnabled = false;
 
 (function() {
 	var t = (function() {
@@ -71,7 +72,7 @@ var background_layer = document.createElement("div");
 			}
 			for (i = 0; i < u; i++) {
 				n[i] = new Image();
-				n[i].src = drop_name + ".png"
+				n[i].src = "images/" + drop_name + ".png"
 			}
 			m.action();
 			x = setInterval(m.action, d)
@@ -201,10 +202,12 @@ var background_layer = document.createElement("div");
 			switch(mode) {
 				case 0:
 					m.clearView();
+					leavesEnabled = true;
 					september_21();
 					mode = 1;
 					break;
 				case 1:
+					leavesEnabled = false;
 					m.clearView();
 					m.init();
 					mode = 0;
@@ -319,7 +322,7 @@ function start_leaf(whyp) {
   size=start_fall(starty, whyp);
   f=document.createElement("img");
   f.src=leaf_image[starty%leaf_image.length];
-  f.width=size/4;
+  f.width=size;
   f.style.height="auto";
   f.style.position="absolute";
   f.style.zIndex=1000+starty;
@@ -362,6 +365,10 @@ function set_width() {
 }
 
 function autumn_leaves() {
+	if (!leavesEnabled) {
+		return;
+	}
+
   var i;
   var c=0;
   for (i=0; i<starty; i++) {
