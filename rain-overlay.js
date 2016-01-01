@@ -333,9 +333,9 @@ function start_leaf(whyp) {
 }
   
 function start_fall(i, whyp) {
-  var size=72-Math.floor(36*Math.random());
+  var size=24-Math.floor(12*Math.random());
   dx[i]=Math.random();
-  am[i]=8+Math.random()*24;
+  am[i]=3+Math.random()*8;
   dy[i]=1+Math.random()*2;
   xp[i]=Math.random()*(swide-size);
   yp[i]=whyp-size;
