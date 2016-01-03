@@ -216,6 +216,7 @@ var leavesEnabled = false;
 		},
 		addControlLayer: function() {
 			var control_wrapper = document.createElement("div");
+			control_wrapper.className = "button_layer";
 			control_wrapper.style.position = "relative";
 			control_wrapper.style.top = viewHeight;
 			control_wrapper.style.left = 0;
@@ -224,11 +225,16 @@ var leavesEnabled = false;
 			var switchModeButton = document.createElement("button");
 			switchModeButton.onclick = m.switchMode;
 
-			var switchModeText = document.createTextNode("Switch mode");
-			control_wrapper.className = "button_layer";
+			var slowLeavesDownButton = document.createElement("button");
+			slowLeavesDownButton.onclick = slowLeavesDown;
 
+			var switchModeText = document.createTextNode("Switch mode");			
+			var slowLeavesDownText = document.createTextNode("Slow leaves down");
+
+			slowLeavesDownButton.appendChild(slowLeavesDownText);
 			switchModeButton.appendChild(switchModeText);
 			control_wrapper.appendChild(switchModeButton);
+			control_wrapper.appendChild(slowLeavesDownButton);
 			body.appendChild(control_wrapper);
 		}
 	};
@@ -279,6 +285,10 @@ leaf_image[2]='images/leaf2.png';
 // }
 
 // addLoadEvent(september_21);
+
+function slowLeavesDown() {
+	console.log("slowLeavesDown()");
+}
 
 function september_21() { if (document.getElementById) {
   var i;
