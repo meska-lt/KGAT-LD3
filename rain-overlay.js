@@ -203,7 +203,6 @@ var leavesEnabled = false;
 				case 0:
 					m.clearView();
 					leavesEnabled = true;
-					timeLeavesShown += 1;
 					september_21();
 					mode = 1;
 					break;
@@ -378,16 +377,19 @@ var untidy=4; // how often do you want the leaves tidied up (high number is less
 
 		if (c<leaves)
 			start_leaf(0);
-		
+
 		if (offset>untidy*leaves && !tidying && Math.random()<.05)
 			tidy_leaves();
 	}
 
 	function tidy_leaves() {
-	var i;
-	tidying=true;
-	for (i=swide; i>=-146; i-=2) setTimeout('plough('+i+')', speed*(swide-i));
-	setTimeout('tidying=false; offset=0;', speed*(swide-i));
+		var i;
+		tidying=true;
+
+		for (i=swide; i>=-146; i-=2)
+			setTimeout('plough('+i+')', speed*(swide-i));
+
+		setTimeout('tidying=false; offset=0;', speed*(swide-i));
 	}
 
 	function plough(x) {
