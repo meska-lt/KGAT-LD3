@@ -1,5 +1,6 @@
 var background_layer = document.createElement("div");
 var leavesEnabled = false;
+var leafAnimationId;
 
 (function() {
 	var t = (function() {
@@ -208,6 +209,12 @@ var leavesEnabled = false;
 					break;
 				case 1:
 					leavesEnabled = false;
+
+					if (leafAnimationId) {
+						clearInterval(leafAnimationId);
+						leafAnimationId = null;
+					}
+
 					m.clearView();
 					m.init();
 					mode = 0;
@@ -239,9 +246,9 @@ var leavesEnabled = false;
 		}
 	};
 
-var speed=40; // lower number for faster
-var leaves=20; // number of leaves falling at a time
-var untidy=4; // how often do you want the leaves tidied up (high number is less often)
+	var speed=40; // lower number for faster
+	var leaves=20; // number of leaves falling at a time
+	var untidy=4; // how often do you want the leaves tidied up (high number is less often)
 
 /****************************\
 *Falling Autumn Leaves Effect*
@@ -304,7 +311,7 @@ var untidy=4; // how often do you want the leaves tidied up (high number is less
 
 			offset=0;
 
-			setInterval(autumn_leaves, speed);
+			leafAnimationId = setInterval(autumn_leaves, speed);
 		}
 	}
 
@@ -393,32 +400,37 @@ var untidy=4; // how often do you want the leaves tidied up (high number is less
 	}
 
 	function plough(x) {
-	var i, p;
-	plow.style.left=x+"px";
-	for (i=0; i<starty; i++) {
-	if (leafy[i] && le[i]!='falling') {
-	p=xp[i]+leafy[i].width+am[i]*Math.sin(dx[i])-dy[i];
-	if (p<0) {
-	boddie.removeChild(leafy[i]);
-	leafy[i]=false;
-	}
-	else if (p>x && p<x+3) {
-	le[i]='tidying';
-	xp[i]-=2;
-	leafy[i].style.left=(xp[i]+am[i]*Math.sin(dx[i]))+"px";
-	if (Math.random()<.1) {
-	yp[i]-=1;
-	leafy[i].style.top=(yp[i]-am[i]/2*Math.abs(Math.sin(dx[i])))+"px";
-	}
-	}
-	else if (p>x+144 && yp[i]<shigh-leafy[i].height/2) {
-	yp[i]+=dy[i];
-	dx[i]+=0.02+Math.random()/10;
-	leafy[i].style.top=(yp[i]-am[i]/2*Math.abs(Math.sin(dx[i])))+"px";
-	leafy[i].style.left=(xp[i]+am[i]*Math.sin(dx[i]))+"px";
-	}
-	}
-	}
+		var i, p;
+
+		plow.style.left=x+"px";
+
+		for (i=0; i<starty; i++) {
+			if (leafy[i] && le[i]!='falling') {
+				p=xp[i]+leafy[i].width+am[i]*Math.sin(dx[i])-dy[i];
+
+				if (p<0) {
+					boddie.removeChild(leafy[i]);
+					leafy[i]=false;
+				}
+				else if (p>x && p<x+3) {
+					le[i]='tidying';
+					xp[i]-=2;
+					leafy[i].style.left=(xp[i]+am[i]*Math.sin(dx[i]))+"px";
+
+					if (Math.random()<.1) {
+						yp[i]-=1;
+						leafy[i].style.top=(yp[i]-am[i]/2*Math.abs(Math.sin(dx[i])))+"px";
+					}
+				}
+				else if (p>x+144 && yp[i]<shigh-leafy[i].height/2) {
+					yp[i]+=dy[i];
+					dx[i]+=0.02+Math.random()/10;
+
+					leafy[i].style.top=(yp[i]-am[i]/2*Math.abs(Math.sin(dx[i])))+"px";
+					leafy[i].style.left=(xp[i]+am[i]*Math.sin(dx[i]))+"px";
+				}
+			}
+		}
 	}
 
 	function set_scroll() {
